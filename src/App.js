@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
+import setToken from "./services/appointmentServices";
 
 const App = (props) => {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -8,14 +9,29 @@ const App = (props) => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const loggedUserJson = window.localStorage.getItem("loggedInUser");
+    if (loggedUserJson) {
+      const userInfo = JSON.parse(loggedUserJson);
+      setUser(userInfo.user);
+      setToken(userInfo.token);
+    }
+  }, []);
+
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log(loginService);
     try {
-      const { user } = await loginService.login({
+      const { token, user } = await loginService.login({
         email,
         password,
       });
+
+      window.localStorage.setItem(
+        "loggedInUser",
+        JSON.stringify({ token: token, user: user })
+      );
+      console.log(window.localStorage.getItem("loggedInUser"));
+      setToken(token);
       setUser(user);
       setEmail("");
       setPassword("");
@@ -26,6 +42,8 @@ const App = (props) => {
       }, 3000);
     }
   };
+
+  const handleLogout = () => window.localStorage.clear();
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -61,7 +79,9 @@ const App = (props) => {
       ) : (
         <div>
           <p>Welcome {user.user_name}!</p>
-          {/* redirect to index */}
+          <button type="button" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       )}
     </div>
