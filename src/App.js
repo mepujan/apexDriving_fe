@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
 import setToken from "./services/appointmentServices";
+import LoginForm from "./components/LoginForm";
 
 const App = (props) => {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -9,6 +10,7 @@ const App = (props) => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
+  // check for user token when the page loags
   useEffect(() => {
     const loggedUserJson = window.localStorage.getItem("loggedInUser");
     if (loggedUserJson) {
@@ -30,7 +32,6 @@ const App = (props) => {
         "loggedInUser",
         JSON.stringify({ token: token, user: user })
       );
-      console.log(window.localStorage.getItem("loggedInUser"));
       setToken(token);
       setUser(user);
       setEmail("");
@@ -43,39 +44,22 @@ const App = (props) => {
     }
   };
 
-  const handleLogout = () => window.localStorage.clear();
-
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        email:
-        <input
-          type="email"
-          required
-          value={email}
-          name="email"
-          onChange={({ target }) => setEmail(target.value)}
-        />
-      </div>
-      <div>
-        password:
-        <input
-          type="password"
-          required
-          value={password}
-          name="password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">Login</button>
-    </form>
-  );
+  const handleLogout = () => {
+    window.localStorage.clear();
+    window.location.reload();
+  };
 
   return (
     <div>
       <Notification message={errorMessage} />
       {user === null ? (
-        loginForm()
+        <LoginForm
+          email={email}
+          password={password}
+          handleEmailChange={({ target }) => setEmail(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+        />
       ) : (
         <div>
           <p>Welcome {user.user_name}!</p>
