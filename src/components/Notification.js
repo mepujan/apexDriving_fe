@@ -1,8 +1,14 @@
+import { Alert,AlertTitle } from "@mui/material";
+
 const Notification = ({ message }) => {
   if (message === null) {
     return null;
   }
-  return <div className="error">{message}</div>;
+  return <Alert variant = "filled"severity="error">
+  <AlertTitle>Error</AlertTitle>
+   <strong align= "center">{message}</strong>
+</Alert>
+
 };
 
 export default Notification;
