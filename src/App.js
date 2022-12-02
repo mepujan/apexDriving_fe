@@ -15,7 +15,6 @@ export default function App() {
       setUser(userInfo.user.user_name);
     }
   }, []);
-  console.log(user);
 
   return (
     <BrowserRouter>

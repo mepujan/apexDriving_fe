@@ -4,7 +4,6 @@ const signupUrl = baseUrl + "/signup";
 
 const signup = async (credentials) => {
   const response = await axios.post(signupUrl, credentials);
-  console.log(response.data);
   return response.data;
 };
 
