@@ -29,7 +29,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 const SignupPage = () => {
-    const [fullName,setFullName] = React.useState('');
+  const [fullName,setFullName] = React.useState('');
   const [email,setEmail] = React.useState('');
   const [password,setPassword] = React.useState('');
   const [confirmPassword,setConfirmPassword] = React.useState('');
