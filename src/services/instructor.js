@@ -1,7 +1,7 @@
 import axios from "axios";
 import baseUrl from "../url.js";
-const instructorUrl = baseUrl + "/instructor/all";
-const availabilityUrl = baseUrl + "/instructor/availability";
+const instructorUrl = baseUrl + "/api/instructor/all";
+const availabilityUrl = baseUrl + "/api/instructor/availability";
 
 const getInstructor = async () => {
   const response = await axios.get(instructorUrl);

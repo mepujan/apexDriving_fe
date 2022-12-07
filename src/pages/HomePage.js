@@ -58,7 +58,7 @@ const Instructors = () => {
           ))}
         </select>
 
-        <Link to="/appointment">
+        <Link to="/schedule">
           <button type="button">View my appointment</button>
         </Link>
       </div>
