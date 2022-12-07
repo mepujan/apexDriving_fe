@@ -1,2 +1,2 @@
-const baseUrl = "https://apexdriving.herokuapp.com";
+const baseUrl = "https://apexdriving.fly.dev";
 export default baseUrl;
