@@ -10,6 +10,7 @@ const Notification = ({ message }) => {
       <strong align="center">{message}</strong>
     </Alert>
   );
+
 };
 
 export default Notification;
