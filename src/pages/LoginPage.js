@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import loginService from "../services/login";
 import Notification from "../components/Notification";
+import Header from "../components/Header";
 
 function Copyright(props) {
   return (
@@ -22,8 +23,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        apexDriving
+      <Link color="inherit" href="https://apexdriving.fly.dev/">
+        ApexDriving
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -38,9 +39,6 @@ const LoginPage = () => {
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
-  setTimeout(() => {
-    setError(null);
-  }, 5000);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -56,11 +54,15 @@ const LoginPage = () => {
       );
     } catch (error) {
       setError("Unauthorized User");
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
     }
   };
 
   return (
     <>
+      <Header />
       {error && <Notification message={error} />}
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">

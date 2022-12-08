@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import HomePage from "./pages/HomePage"
+import HomePage from "./pages/HomePage";
 import BookingPage from "./pages/BookingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SchedulePage from "./pages/SchedulePage";
@@ -32,11 +32,11 @@ export default function App() {
         />
         <Route
           path="/booking"
-          element={!user ? <BookingPage /> : <Navigate replace to={"/"} />}
+          element={user ? <BookingPage /> : <Navigate replace to={"/login"} />}
         />
         <Route
           path="/schedule"
-          element={!user ? <SchedulePage /> : <Navigate replace to={"/"} />}
+          element={user ? <SchedulePage /> : <Navigate replace to={"/login"} />}
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
