@@ -33,60 +33,6 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-const testSchedule = [
-  {
-    _id: "6381463bf703c3d2b8085024",
-    instructor: {
-      full_name: "John Doe",
-      user_name: "jdoe",
-      email: "jdoe@apexdriving.com",
-      mobile_number: "9278955560",
-    },
-    booked_schedule: {
-      start_time: "2022-11-25T11:51:50.417Z",
-      end_time: "2022-11-25T12:51:50.417Z",
-    },
-  },
-  {
-    _id: "63814644f703c3d2b8085026",
-    instructor: {
-      full_name: "John Doe",
-      user_name: "jdoe",
-      email: "jdoe@apexdriving.com",
-      mobile_number: "9278955560",
-    },
-    booked_schedule: {
-      start_time: "2022-11-25T13:00:50.417Z",
-      end_time: "2022-11-25T14:00:50.417Z",
-    },
-  },
-  {
-    _id: "63814648f703c3d2b8085028",
-    instructor: {
-      full_name: "John Doe",
-      user_name: "jdoe",
-      email: "jdoe@apexdriving.com",
-      mobile_number: "9278955560",
-    },
-    booked_schedule: {
-      start_time: "2022-11-25T15:00:50.417Z",
-      end_time: "2022-11-25T16:00:50.417Z",
-    },
-  },
-  {
-    _id: "6389455ebfd41d455d7b74e5",
-    instructor: {
-      full_name: "Mary Jane",
-      user_name: "mjane",
-      email: "mjane@apexdriving.com",
-      mobile_number: "9278955560",
-    },
-    booked_schedule: {
-      start_time: "2012-01-26T20:51:50.417Z",
-      end_time: "2012-01-26T21:51:50.417Z",
-    },
-  },
-];
 
 const SchedulePage = () => {
   const [schedule, setSchedule] = React.useState([]);
@@ -96,10 +42,11 @@ const SchedulePage = () => {
   React.useEffect(() => {
     (async () => {
       try {
-        //const {schedule} = await scheduleService.schedule();
-        const schedule = testSchedule;
+        await scheduleService.schedule().then((res)=>{
+            console.log("response:", res);
+            setSchedule(schedule);});
+        //const schedule = testSchedule;
         console.log(schedule);
-        setSchedule(schedule);
       } catch (error) {
         console.log(error["message"]);
         setError(
@@ -145,7 +92,7 @@ const SchedulePage = () => {
               }}
             >
               {schedule.map((item) => (
-                <Grid item xs={12} sm={6} md={4} key={schedule.indexOf(item)}>
+                <Grid item xs={12} sm={6} md={4} key={item._id}>
                   <Card>
                     <CardContent>
                       <Typography>
