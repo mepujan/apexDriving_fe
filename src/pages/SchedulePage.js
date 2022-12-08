@@ -37,16 +37,12 @@ const theme = createTheme();
 const SchedulePage = () => {
   const [schedule, setSchedule] = React.useState([]);
   const [error, setError] = React.useState("");
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     (async () => {
       try {
         await scheduleService.schedule().then((res)=>{
-            console.log("response:", res);
-            setSchedule(schedule);});
-        //const schedule = testSchedule;
-        console.log(schedule);
+            setSchedule(res);});
       } catch (error) {
         console.log(error["message"]);
         setError(
@@ -58,6 +54,17 @@ const SchedulePage = () => {
       }
     })();
   }, []);
+  // React.useEffect(()=>{
+  //   try{
+  //     const response = scheduleService.schedule();
+  //     setSchedule(response);
+  //     }catch(error){
+  //       setError("Cannot get booking schedule. Something went wrong. Try Again...");
+  //       setTimeout(()=>{
+  //         setError(null)
+  //       },5000);
+  //     }
+  // },[]);
 
   return (
     <>
@@ -91,30 +98,31 @@ const SchedulePage = () => {
                 paddingRight: "50px",
               }}
             >
-              {schedule.map((item) => (
+              {schedule.map((item) =>(
+                
                 <Grid item xs={12} sm={6} md={4} key={item._id}>
-                  <Card>
-                    <CardContent>
-                      <Typography>
-                        <b>{item.instructor.full_name}</b>
-                      </Typography>
-                      <Typography>
-                        <b>Email:</b> {item.instructor.email}
-                      </Typography>
-                      <Typography>
-                        <b>Contact No.:</b> {item.instructor.mobile_number}
-                      </Typography>
-                      <Typography>
-                        <b>Appointment Start Time:</b>{" "}
-                        {item.booked_schedule.start_time}
-                      </Typography>
-                      <Typography>
-                        <b>Appointment End Time:</b>{" "}
-                        {item.booked_schedule.end_time}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                <Card>
+                  <CardContent>
+                    <Typography>
+                      <b>{item.instructor.full_name}</b>
+                    </Typography>
+                    <Typography>
+                      <b>Email:</b> {item.instructor.email}
+                    </Typography>
+                    <Typography>
+                      <b>Contact No.:</b> {item.instructor.mobile_number}
+                    </Typography>
+                    <Typography>
+                      <b>Appointment Start Time:</b>{" "}
+                      {item.booked_schedule.start_time}
+                    </Typography>
+                    <Typography>
+                      <b>Appointment End Time:</b>{" "}
+                      {item.booked_schedule.end_time}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
               ))}
             </Grid>
           </Box>

@@ -163,8 +163,8 @@ const BookingPage = () => {
                   onChange={(e) => setBookedDay(e.target.value)}
                   input={<OutlinedInput label="Availability" />}
                 >
-                  {allAvailability.map((a) => (
-                    <MenuItem key={a.weekday} value={a.weekday}>
+                  {allAvailability.map((a,index) => (
+                    <MenuItem key={index} value={a.weekday}>
                       {a.weekday}
                     </MenuItem>
                   ))}
@@ -180,8 +180,8 @@ const BookingPage = () => {
                   onChange={(e) => setStartTime(e.target.value)}
                   input={<OutlinedInput label="Time" />}
                 >
-                  {allStartTime.map((t) => (
-                    <MenuItem key={t} value={t}>
+                  {allStartTime.map((t,index) => (
+                    <MenuItem key={index} value={t}>
                       {String(t).slice(0, 2)}:{String(t).slice(-2)}
                     </MenuItem>
                   ))}
