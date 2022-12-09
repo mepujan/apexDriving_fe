@@ -56,41 +56,49 @@ const BookingPage = () => {
         const data = await axios.get(baseUrl + "/api/instructor/all");
         setAllInstructors(data.data);
       } catch (e) {
-        console.log(e);
+        setError("No instructor found");
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
       }
     };
     getAllInstructors();
   }, []);
 
-  React.useEffect(() => {
-    const getAllAvailability = async () => {
-      try {
-        const data = await axios.post(
-          baseUrl + "/api/instructor/availability",
-          { id: instructor }
-        );
-        setAllAvailability(data.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
+  const getAllAvailability = async (event) => {
+    event.preventDefault();
+    const ins = event.target.value;
+    try {
+      const data = await axios.post(
+        baseUrl + "/api/instructor/availability",
+        { id: ins }
+      );
+      setAllAvailability(data.data);
+    } catch (e) {
+      setError("No availability found");
+      setAllAvailability([]);
+      setAllStartTime([]);
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+    }
+  };
 
-    getAllAvailability();
-  }, [instructor]);
-
-  React.useEffect(() => {
-    const getAllStartTime = () => {
-      try {
-        let index = allAvailability.findIndex((a) => a.weekday === bookedDay);
-        const times = allAvailability[index].timeslot;
-        setAllStartTime(times);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    getAllStartTime();
-  }, [allAvailability, bookedDay]);
+  const getAllStartTime = async (event) => {
+    event.preventDefault();
+    const day = event.target.value;
+    try {
+      let index = allAvailability.findIndex((a) => a.weekday === day);
+      const times = allAvailability[index].timeslot;
+      setAllStartTime(times);
+    } catch (e) {
+      setError("No availability found");
+      setAllStartTime([]);
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+    }
+  };
 
   const handleBooking = async (event) => {
     event.preventDefault();
@@ -114,6 +122,7 @@ const BookingPage = () => {
   return (
     <>
       <Header />
+      {error && <Notification message={error} />}
       <Stack
         marginTop={4}
         spacing={4}
@@ -128,7 +137,7 @@ const BookingPage = () => {
           <Button variant="contained">View my Appointment</Button>
         </Link>
       </Stack>
-      {error && <Notification message={error} />}
+      
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -152,9 +161,8 @@ const BookingPage = () => {
                 <Select
                   labelId="instructor-label"
                   id="instructor"
-                  defaultValue=""
                   value={instructor}
-                  onChange={(e) => setInstructor(e.target.value)}
+                  onChange={(e) => {setInstructor(e.target.value); getAllAvailability(e)}}
                   input={<OutlinedInput label="Instructor" />}
                 >
                   {allInstructors.map((i) => (
@@ -170,8 +178,8 @@ const BookingPage = () => {
                 <Select
                   labelId="availability-label"
                   id="availability"
-                  value={bookedDay}
-                  onChange={(e) => setBookedDay(e.target.value)}
+                  value= {bookedDay}
+                  onChange={(e) => {setBookedDay(e.target.value); getAllStartTime(e)}}
                   input={<OutlinedInput label="Availability" />}
                 >
                   {allAvailability.map((a,index) => (
