@@ -20,8 +20,18 @@ This will start the server.
 
 ***
 ### Hosting Information
-Currently backend of  this site is hosted in [fly.io](https://fly.io/apps/apexdriving)
-Host Name:  [apexdriving.fly.dev](https://apexdriving.fly.dev/)
+Currently this site is hosted in [azure cloud](https://apexdriving.azurewebsites.net/)
+
+Website URL:  [https://apexdriving.azurewebsites.net/](https://apexdriving.azurewebsites.net/)
+
+> To Deploy this web app in azure, we use the Create Web App Service Provided by Azure.
+
+`Pricing : Free Tier`
+
+`Server Location : Central US`
+
+`App Service Plan : appsvc_linux_centralus`
+
 
 ### Team Members Information
 Name | Student Number
