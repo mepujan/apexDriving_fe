@@ -120,7 +120,7 @@ const Instructors = () => {
               onChange={handleDropdown}
             >
               {instructors.map((elem) => (
-                <MenuItem value={elem._id}>{elem.full_name}</MenuItem>
+                <MenuItem key={elem._id} value={elem._id}>{elem.full_name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -142,16 +142,16 @@ const Instructors = () => {
               >
                 <TableHead>
                   <StyledTableRow>
-                    {availability.map((header) => (
-                      <StyledTableCell key={header.weekday}>
+                    {availability.map((header,index) => (
+                      <StyledTableCell key={index}>
                         {header.weekday}
                       </StyledTableCell>
                     ))}
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
-                  {availableTime.map((elements) => (
-                    <StyledTableRow>
+                  {availableTime.map((elements,index) => (
+                    <StyledTableRow key = {index}>
                       {elements.map((time, index) => {
                         const time1 = time.slice(0, 2);
                         const time2 = time.slice(2);

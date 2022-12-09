@@ -1,16 +1,16 @@
 import axios from "axios";
 import baseUrl from "../url.js";
 const scheduleUrl = baseUrl + "/api/student/booking";
-const token = localStorage.getItem("token");
+const UserInfo = JSON.parse(localStorage.getItem("loggedInUser"));
 
 const schedule = async () => {
   const response = await axios.get(scheduleUrl,
     {
         headers:{
-            Authorization: 'Bearer' + token
+            Authorization: 'Bearer ' + UserInfo.token
         }
-    });
-  console.log(response.data);
+    }
+    );
   return response.data;
 };
 

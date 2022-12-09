@@ -1,4 +1,6 @@
 import * as React from "react";
+import Moment from 'react-moment';
+import 'moment-timezone';
 import { Box, Container } from "@mui/system";
 import {
   Grid,
@@ -7,10 +9,14 @@ import {
   Typography,
   CssBaseline,
   Avatar,
+  Stack,
+  Button
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import { Link, useNavigate } from "react-router-dom";
+
+import Header from "../components/Header";
 import scheduleService from "../services/schedule";
 import Notification from "../components/Notification";
 
@@ -33,73 +39,15 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-const testSchedule = [
-  {
-    _id: "6381463bf703c3d2b8085024",
-    instructor: {
-      full_name: "John Doe",
-      user_name: "jdoe",
-      email: "jdoe@apexdriving.com",
-      mobile_number: "9278955560",
-    },
-    booked_schedule: {
-      start_time: "2022-11-25T11:51:50.417Z",
-      end_time: "2022-11-25T12:51:50.417Z",
-    },
-  },
-  {
-    _id: "63814644f703c3d2b8085026",
-    instructor: {
-      full_name: "John Doe",
-      user_name: "jdoe",
-      email: "jdoe@apexdriving.com",
-      mobile_number: "9278955560",
-    },
-    booked_schedule: {
-      start_time: "2022-11-25T13:00:50.417Z",
-      end_time: "2022-11-25T14:00:50.417Z",
-    },
-  },
-  {
-    _id: "63814648f703c3d2b8085028",
-    instructor: {
-      full_name: "John Doe",
-      user_name: "jdoe",
-      email: "jdoe@apexdriving.com",
-      mobile_number: "9278955560",
-    },
-    booked_schedule: {
-      start_time: "2022-11-25T15:00:50.417Z",
-      end_time: "2022-11-25T16:00:50.417Z",
-    },
-  },
-  {
-    _id: "6389455ebfd41d455d7b74e5",
-    instructor: {
-      full_name: "Mary Jane",
-      user_name: "mjane",
-      email: "mjane@apexdriving.com",
-      mobile_number: "9278955560",
-    },
-    booked_schedule: {
-      start_time: "2012-01-26T20:51:50.417Z",
-      end_time: "2012-01-26T21:51:50.417Z",
-    },
-  },
-];
 
 const SchedulePage = () => {
   const [schedule, setSchedule] = React.useState([]);
   const [error, setError] = React.useState("");
-  const navigate = useNavigate();
-
   React.useEffect(() => {
     (async () => {
       try {
-        //const {schedule} = await scheduleService.schedule();
-        const schedule = testSchedule;
-        console.log(schedule);
-        setSchedule(schedule);
+        await scheduleService.schedule().then((res)=>{
+            setSchedule(res);});
       } catch (error) {
         console.log(error["message"]);
         setError(
@@ -114,13 +62,28 @@ const SchedulePage = () => {
 
   return (
     <>
+      <Header />
+      <Stack
+        marginTop={4}
+        spacing={4}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Button variant="outlined">Back to Home</Button>
+        </Link>
+        <Link to="/booking" style={{ textDecoration: "none" }}>
+          <Button variant="contained">Book an appointment</Button>
+        </Link>
+      </Stack>
       {error && <Notification message={error} />}
       <ThemeProvider theme={theme}>
         <Container component="main">
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -140,34 +103,36 @@ const SchedulePage = () => {
               alignItems="flex-start"
               style={{
                 paddingTop: "50px",
-                paddingLeft: "50px",
-                paddingRight: "50px",
+                paddingLeft: "20px",
+                paddingRight: "20px",
               }}
             >
-              {schedule.map((item) => (
-                <Grid item xs={12} sm={6} md={4} key={schedule.indexOf(item)}>
-                  <Card>
-                    <CardContent>
-                      <Typography>
-                        <b>{item.instructor.full_name}</b>
-                      </Typography>
-                      <Typography>
-                        <b>Email:</b> {item.instructor.email}
-                      </Typography>
-                      <Typography>
-                        <b>Contact No.:</b> {item.instructor.mobile_number}
-                      </Typography>
-                      <Typography>
-                        <b>Appointment Start Time:</b>{" "}
-                        {item.booked_schedule.start_time}
-                      </Typography>
-                      <Typography>
-                        <b>Appointment End Time:</b>{" "}
-                        {item.booked_schedule.end_time}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+              {schedule.map((item) =>(
+                <Grid item xs={12} sm={6} md={4} key={item._id}>
+                <Card>
+                  <CardContent>
+                    <Typography>
+                      <b>{item.instructor.full_name}</b>
+                    </Typography>
+                    <Typography>
+                      <b>Email:</b> {item.instructor.email}
+                    </Typography>
+                    <Typography>
+                      <b>Contact No.:</b> {item.instructor.mobile_number}
+                    </Typography>
+                    <Typography>
+                      <b>Appointment Start Time:</b>{" "}
+                      <Moment format="YYYY-MM-DD h:mm a" tz="Zulu" 
+                        >{item.booked_schedule.start_time}</Moment>
+                    </Typography>
+                    <Typography>
+                      <b>Appointment End Time:</b>{" "}
+                      <Moment format="YYYY-MM-DD h:mm a" tz="Zulu">
+                        {item.booked_schedule.end_time}</Moment>
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
               ))}
             </Grid>
           </Box>
