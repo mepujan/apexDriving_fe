@@ -8,15 +8,18 @@ import NotFoundPage from "./pages/NotFoundPage";
 import SchedulePage from "./pages/SchedulePage";
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const isUser = localStorage.getItem("loggedInUser");
+
+  const [user, setUser] = useState(isUser?isUser:null);
 
   useEffect(() => {
+    console.log("here -->");
     const loggedUserJson = window.localStorage.getItem("loggedInUser");
     if (loggedUserJson) {
       const userInfo = JSON.parse(loggedUserJson);
       setUser(userInfo.user.user_name);
     }
-  }, []);
+  }, [user]);
 
   return (
     <BrowserRouter>

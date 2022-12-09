@@ -48,6 +48,7 @@ const LoginPage = () => {
         password,
       });
       navigate("/");
+      window.location.reload();
       window.localStorage.setItem(
         "loggedInUser",
         JSON.stringify({ token: token, user: user })
