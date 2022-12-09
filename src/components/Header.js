@@ -3,7 +3,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -27,7 +27,9 @@ const Header = () => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Apex Driving
+        <Link to="/"  color="inherit" style={{ textDecoration: "none" }}>
+          <Button style ={{color:"White"}} size="large" variant="text">ApexDriving</Button>
+        </Link>
         </Typography>
         {user ? (
           <>
@@ -45,17 +47,6 @@ const Header = () => {
         )}
       </Toolbar>
     </AppBar>
-    // <div>
-    //   <h1>Apex Driving</h1>
-    //   {user ? (
-    //     <>
-    //       <span>Welcome {user}</span>
-    //       <button onClick={handleLogout}>Logout</button>
-    //     </>
-    //   ) : (
-    //     <button onClick={handleLogin}>Login</button>
-    //   )}
-    // </div>
   );
 };
 

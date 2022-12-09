@@ -6,5 +6,5 @@ const signup = async (credentials) => {
   const response = await axios.post(signupUrl, credentials);
   return response.data;
 };
-
+// eslint-disable-next-line
 export default { signup };

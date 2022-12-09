@@ -127,12 +127,10 @@ const BookingPage = () => {
         marginTop={4}
         spacing={4}
         direction="row"
-        justifyContent="center"
+        justifyContent="right"
         alignItems="center"
+        marginRight={2}
       >
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <Button variant="outlined">Back to Home</Button>
-        </Link>
         <Link to="/schedule" style={{ textDecoration: "none" }}>
           <Button variant="contained">View my Appointment</Button>
         </Link>
