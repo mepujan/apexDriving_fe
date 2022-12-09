@@ -11,8 +11,10 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormControl from "@mui/material/FormControl";
+import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 import bookingService from "../services/booking";
 import Notification from "../components/Notification";
 import baseUrl from "../url.js";
@@ -45,7 +47,6 @@ const BookingPage = () => {
   const [bookedDay, setBookedDay] = React.useState([]);
   const [allStartTime, setAllStartTime] = React.useState([]);
   const [startTime, setStartTime] = React.useState([]);
-  //const [bookedSchedule, setBookedSchedule] = React.useState([]);
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
 
@@ -53,7 +54,6 @@ const BookingPage = () => {
     const getAllInstructors = async () => {
       try {
         const data = await axios.get(baseUrl + "/api/instructor/all");
-        console.log(data.data);
         setAllInstructors(data.data);
       } catch (e) {
         console.log(e);
@@ -69,7 +69,6 @@ const BookingPage = () => {
           baseUrl + "/api/instructor/availability",
           { id: instructor }
         );
-        console.log(data.data);
         setAllAvailability(data.data);
       } catch (e) {
         console.log(e);
@@ -83,9 +82,7 @@ const BookingPage = () => {
     const getAllStartTime = () => {
       try {
         let index = allAvailability.findIndex((a) => a.weekday === bookedDay);
-        console.log("index:", index);
         const times = allAvailability[index].timeslot;
-        console.log("time:", times);
         setAllStartTime(times);
       } catch (e) {
         console.log(e);
@@ -97,17 +94,15 @@ const BookingPage = () => {
 
   const handleBooking = async (event) => {
     event.preventDefault();
+    const time = startTime.slice(0,2) + ":" + startTime.slice(-2) + ":00";
     const data = {
       instructor: instructor,
-      bookedDay: bookedDay,
-      startTime: startTime,
+      day: bookedDay,
+      time: time,
     };
     try {
-      console.log("instructor = ", instructor);
-      console.log("bookedDay = ", bookedDay);
-      console.log("startTime = ", startTime);
       await bookingService.booking(data);
-      navigate("/index");
+      navigate("/schedule");
     } catch (error) {
       console.log(error["message"]);
       setError("Cannot Book Appointment. Something went wrong. Try Again...");
@@ -118,6 +113,21 @@ const BookingPage = () => {
   };
   return (
     <>
+      <Header />
+      <Stack
+        marginTop={4}
+        spacing={4}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Button variant="outlined">Back to Home</Button>
+        </Link>
+        <Link to="/schedule" style={{ textDecoration: "none" }}>
+          <Button variant="contained">View my Appointment</Button>
+        </Link>
+      </Stack>
       {error && <Notification message={error} />}
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
@@ -142,6 +152,7 @@ const BookingPage = () => {
                 <Select
                   labelId="instructor-label"
                   id="instructor"
+                  defaultValue=""
                   value={instructor}
                   onChange={(e) => setInstructor(e.target.value)}
                   input={<OutlinedInput label="Instructor" />}

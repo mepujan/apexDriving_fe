@@ -120,7 +120,7 @@ const Instructors = () => {
               onChange={handleDropdown}
             >
               {instructors.map((elem) => (
-                <MenuItem value={elem._id}>{elem.full_name}</MenuItem>
+                <MenuItem key={elem._id} value={elem._id}>{elem.full_name}</MenuItem>
               ))}
             </Select>
           </FormControl>
