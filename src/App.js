@@ -2,6 +2,7 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
+import { CartPage } from "./pages/CartPage";
 
 
 import {
@@ -16,6 +17,7 @@ export default function App() {
   <Routes>
     <Route path = "/" element = {<HomePage/>}/>
     <Route path = "/login" element = {<LoginPage />} />
+    <Route path ="cart" element= {<CartPage/>}/>
     <Route path = "/signup" element = {<SignUpPage />} />
     <Route path = "*" element = {<NotFoundPage />} />
   </Routes>
