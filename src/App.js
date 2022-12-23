@@ -5,13 +5,13 @@ import SignUpPage from "./pages/SignUpPage";
 import HomePage from "./pages/HomePage";
 import BookingPage from "./pages/BookingPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import { CartPage } from "./pages/CartPage";
 import SchedulePage from "./pages/SchedulePage";
 
 export default function App() {
   const isUser = localStorage.getItem("loggedInUser");
 
   const [user, setUser] = useState(isUser?isUser:null);
-
   useEffect(() => {
     console.log("here -->");
     const loggedUserJson = window.localStorage.getItem("loggedInUser");
